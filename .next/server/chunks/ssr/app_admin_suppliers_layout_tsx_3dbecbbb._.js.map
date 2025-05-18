@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/ekrem/OneDrive/Masa%C3%BCst%C3%BC/Stok/stok-takip/app/admin/suppliers/layout.tsx"],"sourcesContent":["// /app/admin/suppliers/layout.tsx\r\n\r\nexport default function Layout({ children }: { children: React.ReactNode }) {\r\n  return <>{children}</>;\r\n}\r\n"],"names":[],"mappings":"AAAA,kCAAkC;;;;;;AAEnB,SAAS,OAAO,EAAE,QAAQ,EAAiC;IACxE,qBAAO;kBAAG;;AACZ","debugId":null}}]
+}

@@ -1,6 +1,11 @@
-import AdminSidebar from '@/app/components/AdminSidebar';
+'use client';
 import AdminTopbar from '@/app/components/AdminTopbar';
 import AdminGuard from '@/app/components/AdminGuard';
+import dynamic from 'next/dynamic';
+
+const AdminSidebar = dynamic(() => import('@/app/components/AdminSidebar'), {
+  ssr: false, // ❗ önemli: sadece client'ta çalışsın
+});
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (

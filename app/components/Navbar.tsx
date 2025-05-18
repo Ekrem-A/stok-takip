@@ -1,54 +1,56 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import  supabase  from '@/lib/supabase';
-import { useRouter } from 'next/navigation';
+import supabase from '@/lib/supabase';
 
 export default function Navbar() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const router = useRouter();
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const { data } = await supabase.auth.getUser();
-      setLoggedIn(!!data.user);
+    // İlk yüklemede oturumu getir
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });
+
+    // Oturum değişikliklerini dinle
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => {
+      subscription.unsubscribe();
     };
-    checkAuth();
   }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.push('/');
   };
 
   return (
-    <nav className="flex justify-between items-center bg-gray-100 p-4 shadow-sm">
-      <Link href="/" className="text-xl font-bold text-blue-700">
-        Gözlükçü Takip
-      </Link>
-
-      <div className="space-x-4">
-        {loggedIn ? (
+    <header className="flex justify-between p-4 bg-gray-100">
+      <h1 className="text-lg font-bold text-blue-600">Gözlükçü Takip</h1>
+      <div className="space-x-4 text-sm text-blue-600">
+        {user ? (
           <>
-            <Link href="/admin" className="text-blue-600 hover:underline">
-              Admin Paneli
-            </Link>
-            <button onClick={handleLogout} className="text-red-600 hover:underline">
+            <a href="/admin">Admin Paneli</a>
+            <button
+              onClick={handleLogout}
+              className="bg-green-500 text-white px-3 py-1 rounded"
+            >
               Çıkış
             </button>
           </>
         ) : (
           <>
-            <Link href="/login" className="text-blue-600 hover:underline">
-              Giriş Yap
-            </Link>
-            <Link href="/register" className="text-blue-600 hover:underline">
+            <a href="/login">Giriş Yap</a>
+            <a href="/register" className="ml-4">
               Kayıt Ol
-            </Link>
+            </a>
           </>
         )}
       </div>
-    </nav>
+    </header>
   );
 }

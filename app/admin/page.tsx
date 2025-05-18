@@ -1,8 +1,14 @@
+'use client';
 import StatCard from '@/app/components/StatCard';
 import StockTrends from '@/app/components/Charts/StockTrends';
 import InventoryByCategory from '@/app/components/Charts/InventoryByCategory';
 
+
+
+
 export default function AdminDashboard() {
+
+  
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Dashboard</h1>
